@@ -1,0 +1,55 @@
+<view class="card">
+  <view class="form-title">身体档案</view>
+
+  <view class="form-row">
+    <text class="label">性别</text>
+    <picker range="{{['男', '女']}}" value="{{genderIndex}}" bindchange="onGenderChange">
+      <view class="picker-value">{{genderIndex === 0 ? '男' : '女'}}</view>
+    </picker>
+  </view>
+
+  <view class="form-row">
+    <text class="label">年龄</text>
+    <input type="number" data-field="age" value="{{age}}" bindinput="onInput" placeholder="岁" />
+  </view>
+
+  <view class="form-row">
+    <text class="label">身高</text>
+    <input type="digit" data-field="heightCm" value="{{heightCm}}" bindinput="onInput" placeholder="cm" />
+  </view>
+
+  <view class="form-row">
+    <text class="label">体重</text>
+    <input type="digit" data-field="weightKg" value="{{weightKg}}" bindinput="onInput" placeholder="kg" />
+  </view>
+
+  <view class="form-row">
+    <text class="label">活动量</text>
+    <picker range="{{ACTIVITY_OPTIONS}}" value="{{activityIndex}}" bindchange="onActivityChange">
+      <view class="picker-value">{{ACTIVITY_OPTIONS[activityIndex]}}</view>
+    </picker>
+  </view>
+
+  <view class="form-row">
+    <text class="label">目标</text>
+    <picker range="{{GOAL_OPTIONS}}" value="{{goalIndex}}" bindchange="onGoalChange">
+      <view class="picker-value">{{GOAL_OPTIONS[goalIndex]}}</view>
+    </picker>
+  </view>
+
+  <button class="btn-primary save-btn" bindtap="onSave">保存并计算目标</button>
+</view>
+
+<view class="card" wx:if="{{targets}}">
+  <view class="form-title">每日营养目标</view>
+  <view class="target-row"><text>每日热量</text><text class="target-value">{{targets.calories}} kcal</text></view>
+  <view class="target-row"><text>蛋白质</text><text class="target-value">{{targets.protein}} g</text></view>
+  <view class="target-row"><text>碳水化合物</text><text class="target-value">{{targets.carbs}} g</text></view>
+  <view class="target-row"><text>脂肪</text><text class="target-value">{{targets.fat}} g</text></view>
+  <view class="target-row"><text>膳食纤维</text><text class="target-value">{{targets.fiber}} g</text></view>
+  <view class="target-row"><text>维生素C</text><text class="target-value">{{targets.vitaminC}} mg</text></view>
+  <view class="target-row"><text>钙</text><text class="target-value">{{targets.calcium}} mg</text></view>
+  <view class="target-row"><text>镁</text><text class="target-value">{{targets.magnesium}} mg</text></view>
+  <view class="target-hint">基础代谢 {{targets.bmr}} kcal · 每日消耗 {{targets.tdee}} kcal · 按目标「{{goalLabel}}」调整 {{goalAdjust}} kcal</view>
+  <view class="target-hint clamp-hint" wx:if="{{targets.clamped}}">已按最低安全热量 {{minCalories}} kcal 兜底（你的测算值低于该下限）</view>
+</view>

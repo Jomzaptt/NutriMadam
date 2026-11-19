@@ -1,0 +1,137 @@
+.search-bar {
+  background: #ffffff;
+  padding: 16rpx 24rpx;
+  border-bottom: 1rpx solid #edf2f7;
+}
+
+.search-bar input {
+  height: 72rpx;
+  background: #f6f7f9;
+  border-radius: 12rpx;
+  padding: 0 24rpx;
+}
+
+.food-list {
+  padding-bottom: 32rpx;
+}
+
+.food-item {
+  background: #ffffff;
+  padding: 24rpx 32rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.food-name {
+  font-size: 30rpx;
+  font-weight: 500;
+}
+
+.food-meta {
+  font-size: 24rpx;
+  color: #a0aec0;
+  margin-top: 4rpx;
+}
+
+.empty {
+  text-align: center;
+  padding: 96rpx 32rpx;
+  color: #a0aec0;
+}
+
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: flex-end;
+  z-index: 100;
+}
+
+.modal {
+  background: #ffffff;
+  width: 100%;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 32rpx;
+  box-sizing: border-box;
+}
+
+.modal-title {
+  font-size: 36rpx;
+  font-weight: 600;
+}
+
+.modal-meta {
+  font-size: 24rpx;
+  color: #718096;
+  margin: 8rpx 0 4rpx;
+}
+
+.modal-micro {
+  font-size: 22rpx;
+  color: #a0aec0;
+  margin-bottom: 24rpx;
+  line-height: 1.4;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #edf2f7;
+}
+
+.form-row .label {
+  color: #4a5568;
+}
+
+.form-row input {
+  text-align: right;
+  width: 160rpx;
+}
+
+.picker-value {
+  color: #2f855a;
+}
+
+.portion-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin: 24rpx 0;
+}
+
+.portion-tag {
+  padding: 12rpx 24rpx;
+  background: #f6f7f9;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  color: #4a5568;
+}
+
+.portion-tag.active {
+  background: #2f855a;
+  color: #ffffff;
+}
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #ffffff;
+  padding: 24rpx 40rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.toast-action {
+  margin-top: 12rpx;
+  color: #68d391;
+  font-size: 26rpx;
+}

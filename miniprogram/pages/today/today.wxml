@@ -1,0 +1,95 @@
+<view class="date-header">
+  <view class="date-nav">
+    <view class="date-nav-btn" bindtap="onPrevDay">‹</view>
+    <view class="date-nav-center">
+      <text class="date-nav-text">{{dateStr}}</text>
+      <text class="date-nav-back" wx:if="{{!isToday}}" bindtap="onBackToday">回到今天</text>
+    </view>
+    <view class="date-nav-btn {{isToday ? 'disabled' : ''}}" bindtap="onNextDay">›</view>
+  </view>
+</view>
+
+<view class="card empty" wx:if="{{!targets}}">
+  <text>还没有设置营养目标</text>
+  <navigator url="/pages/profile/profile" open-type="switchTab" class="link">去「我的」填写身体档案 →</navigator>
+</view>
+
+<block wx:if="{{targets}}">
+  <view class="card calorie-card">
+    <view class="calorie-num">{{totals.calories}}</view>
+    <view class="calorie-target">/ {{targets.calories}} kcal</view>
+    <view class="calorie-label">今日已摄入</view>
+  </view>
+
+  <view class="card">
+    <view class="macro-row" wx:for="{{[
+      {name: '蛋白质', key: 'protein'},
+      {name: '碳水化合物', key: 'carbs'},
+      {name: '脂肪', key: 'fat'},
+      {name: '膳食纤维', key: 'fiber'}
+    ]}}" wx:key="key">
+      <text class="macro-name">{{item.name}}</text>
+      <view class="macro-bar">
+        <view class="macro-fill" style="width: {{Math.min(totals[item.key] / targets[item.key] * 100, 100)}}%"></view>
+      </view>
+      <text class="macro-value">{{totals[item.key]}} / {{targets[item.key]}}g</text>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">更多营养素</view>
+    <view class="micro-grid">
+      <view class="micro-item" wx:for="{{[
+        {name: '维生素A', key: 'vitaminA', unit: 'μg'},
+        {name: '维生素C', key: 'vitaminC', unit: 'mg'},
+        {name: '钙', key: 'calcium', unit: 'mg'},
+        {name: '镁', key: 'magnesium', unit: 'mg'},
+        {name: '铁', key: 'iron', unit: 'mg'},
+        {name: '锌', key: 'zinc', unit: 'mg'}
+      ]}}" wx:key="key"
+      >
+        <view class="micro-name">{{item.name}}</view>
+        <view class="micro-value">{{totals[item.key]}} <text class="micro-unit">{{item.unit}}</text></view>
+        <view class="micro-target">目标 {{targets[item.key]}}{{item.unit}}</view>
+      </view>
+    </view>
+    <view class="micro-note">微量营养素为全天累计摄入，随当日记账逐步累加，无需一次性补足。</view>
+  </view>
+
+  <view class="card advice-card" wx:if="{{advice}}">
+    <view class="section-title">
+      <text>今日建议</text>
+    </view>
+    <view class="advice-summary" wx:for="{{advice.summary}}" wx:key="*this">{{item}}</view>
+
+    <view class="advice-subtitle">推荐补充</view>
+    <view class="advice-tag" wx:for="{{advice.recommendations}}" wx:key="*this" data-name="{{item}}" bindtap="onTapRecommend">{{item}}</view>
+
+    <view class="advice-subtitle">健康小习惯</view>
+    <view class="advice-habit" wx:for="{{advice.habits}}" wx:key="*this">· {{item}}</view>
+  </view>
+</block>
+
+<view class="card">
+  <view class="section-title">
+    <text>今日记录</text>
+    <text class="add-link" bindtap="navToRecord">+ 记一笔</text>
+  </view>
+
+  <block wx:if="{{records.length === 0}}">
+    <view class="empty-day">今天还没有记录食物，去记一笔吧</view>
+  </block>
+
+  <block wx:else>
+    <view class="record-item" wx:for="{{records}}" wx:key="id">
+      <view class="record-main">
+        <text class="record-name">{{item.foodName}}</text>
+        <text class="record-meal">{{item.meal}}</text>
+      </view>
+      <view class="record-meta">
+        <text>{{item.grams}}g · {{item.calories}} kcal</text>
+        <text class="delete" data-id="{{item.id}}" bindtap="onDelete">删除</text>
+      </view>
+    </view>
+  </block>
+</view>

@@ -1,0 +1,53 @@
+.form-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  margin-bottom: 24rpx;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #edf2f7;
+}
+
+.label {
+  color: #4a5568;
+}
+
+.form-row input {
+  text-align: right;
+  flex: 1;
+  margin-left: 32rpx;
+}
+
+.picker-value {
+  color: #2f855a;
+}
+
+.save-btn {
+  margin-top: 32rpx;
+}
+
+.target-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 0;
+}
+
+.target-value {
+  font-weight: 600;
+  color: #2f855a;
+}
+
+.target-hint {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #a0aec0;
+}
+
+.clamp-hint {
+  margin-top: 8rpx;
+  color: #d69e2e;
+}

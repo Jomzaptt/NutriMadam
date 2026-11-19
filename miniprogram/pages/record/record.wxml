@@ -1,0 +1,61 @@
+<view class="search-bar">
+  <input
+    type="text"
+    placeholder="搜索食物，如：米饭、鸡蛋"
+    value="{{keyword}}"
+    bindinput="onInput"
+    focus
+  />
+</view>
+
+<view class="food-list">
+  <view
+    class="food-item"
+    wx:for="{{results}}"
+    wx:key="id"
+    data-id="{{item.id}}"
+    bindtap="onSelectFood"
+  >
+    <view class="food-name">{{item.name}}</view>
+    <view class="food-meta">{{item.calories}} kcal / 100g · {{item.category}}</view>
+  </view>
+
+  <view class="empty" wx:if="{{results.length === 0}}">没有找到「{{keyword}}」相关食物</view>
+</view>
+
+<view class="modal-mask" wx:if="{{selectedFood}}" bindtap="onCloseModal">
+  <view class="modal" catchtap="noop">
+    <view class="modal-title">{{selectedFood.name}}</view>
+    <view class="modal-meta">{{selectedFood.calories}} kcal · 蛋白质 {{selectedFood.protein}}g · 碳水 {{selectedFood.carbs}}g · 脂肪 {{selectedFood.fat}}g · 膳食纤维 {{selectedFood.fiber}}g / 100g</view>
+    <view class="modal-micro">维A {{selectedFood.vitaminA}}μg · 维C {{selectedFood.vitaminC}}mg · 钙 {{selectedFood.calcium}}mg · 镁 {{selectedFood.magnesium}}mg · 铁 {{selectedFood.iron}}mg · 锌 {{selectedFood.zinc}}mg</view>
+
+    <view class="form-row">
+      <text class="label">餐次</text>
+      <picker range="{{MEAL_OPTIONS}}" value="{{mealIndex}}" bindchange="onMealChange">
+        <view class="picker-value">{{MEAL_OPTIONS[mealIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-row">
+      <text class="label">分量（克）</text>
+      <input type="digit" value="{{grams}}" bindinput="onGramsInput" />
+    </view>
+
+    <view class="portion-tags">
+      <view
+        class="portion-tag {{grams === item ? 'active' : ''}}"
+        wx:for="{{DEFAULT_PORTIONS}}"
+        wx:key="*this"
+        data-value="{{item}}"
+        bindtap="onPortionTap"
+      >{{item}}g</view>
+    </view>
+
+    <button class="btn-primary" bindtap="onSave">确认记录</button>
+  </view>
+</view>
+
+<view class="toast" wx:if="{{showToast}}">
+  <text class="toast-text">{{toastMessage}}</text>
+  <text class="toast-action" bindtap="navToToday">查看今日 ›</text>
+</view>
