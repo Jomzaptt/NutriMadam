@@ -1,0 +1,23 @@
+# WeChat DevTools local config & build artifacts
+project.private.config.json
+miniprogram/miniprogram_npm/
+miniprogram_npm/
+
+# Local agent / editor settings
+.claude/settings.local.json
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Node / logs / env
+node_modules/
+npm-debug.log*
+*.log
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

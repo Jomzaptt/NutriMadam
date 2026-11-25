@@ -1,10 +1,14 @@
-const { calcTargets, MIN_CALORIES } = require('../../utils/tdee');
+const { calcTargets, GOAL_ADJUSTMENTS, MIN_CALORIES } = require('../../utils/tdee');
 
 const ACTIVITY_OPTIONS = ['久坐（几乎不运动）', '轻度（每周1-3次）', '中度（每周3-5次）', '高度（每周6-7次）', '极高（体力劳动）'];
 const ACTIVITY_KEYS = ['sedentary', 'light', 'moderate', 'active', 'very_active'];
 const GOAL_OPTIONS = ['减脂', '维持', '增肌'];
 const GOAL_KEYS = ['lose', 'maintain', 'gain'];
-const GOAL_ADJUST_LABELS = { lose: -500, maintain: 0, gain: 300 };
+
+function formatGoalAdjust(goal) {
+  const val = GOAL_ADJUSTMENTS[goal] != null ? GOAL_ADJUSTMENTS[goal] : 0;
+  return val > 0 ? `+${val}` : String(val);
+}
 
 Page({
   data: {
@@ -18,23 +22,50 @@ Page({
     GOAL_OPTIONS,
     targets: null,
     goalLabel: '',
-    goalAdjust: 0,
+    goalAdjustText: '0',
     minCalories: MIN_CALORIES
   },
 
   onLoad() {
-    const profile = wx.getStorageSync('profile');
-    if (profile) {
+    this.syncProfileFromStorage();
+  },
+
+  onShow() {
+    const app = getApp();
+    if (app && app.globalData && app.globalData.resumedRoute) {
+      app.globalData.resumedRoute = null;
+    }
+    this.syncProfileFromStorage();
+  },
+
+  syncProfileFromStorage() {
+    let profile = null;
+    try {
+      profile = wx.getStorageSync('profile');
+    } catch (err) {
+      console.error('load profile storage failed:', err);
+    }
+    const targets = profile ? calcTargets(profile) : null;
+    if (profile && targets) {
+      const goalKey = targets.goal || profile.goal;
+      const goalIdx = Math.max(0, GOAL_KEYS.indexOf(goalKey));
       this.setData({
         genderIndex: profile.gender === 'male' ? 0 : 1,
         age: String(profile.age),
         heightCm: String(profile.heightCm),
         weightKg: String(profile.weightKg),
         activityIndex: Math.max(0, ACTIVITY_KEYS.indexOf(profile.activity)),
-        goalIndex: Math.max(0, GOAL_KEYS.indexOf(profile.goal)),
-        targets: calcTargets(profile),
-        goalLabel: GOAL_OPTIONS[Math.max(0, GOAL_KEYS.indexOf(profile.goal))],
-        goalAdjust: GOAL_ADJUST_LABELS[profile.goal] != null ? GOAL_ADJUST_LABELS[profile.goal] : 0
+        goalIndex: goalIdx,
+        targets,
+        goalLabel: GOAL_OPTIONS[goalIdx],
+        goalAdjustText: formatGoalAdjust(goalKey)
+      });
+    } else {
+      // 没有已保存的档案时只清空目标展示，保留用户正在填写的内容（首次填写时切 tab 再回来不会丢输入）
+      this.setData({
+        targets: null,
+        goalLabel: '',
+        goalAdjustText: '0'
       });
     }
   },
@@ -70,7 +101,12 @@ Page({
       goal: GOAL_KEYS[this.data.goalIndex]
     };
 
-    const existing = wx.getStorageSync('profile');
+    let existing = null;
+    try {
+      existing = wx.getStorageSync('profile');
+    } catch (err) {
+      console.error('read existing profile failed:', err);
+    }
     if (existing) {
       wx.showModal({
         title: '重新保存档案',
@@ -80,6 +116,8 @@ Page({
         success: (res) => {
           if (res.confirm) {
             this.doSave(profile);
+          } else {
+            this.syncProfileFromStorage();
           }
         }
       });
@@ -91,16 +129,30 @@ Page({
 
   doSave(profile) {
     const targets = calcTargets(profile);
-    wx.setStorageSync('profile', profile);
+    if (!targets) {
+      wx.showToast({ title: '身体数据无效，请检查后重试', icon: 'none' });
+      return;
+    }
+    try {
+      wx.setStorageSync('profile', profile);
+    } catch (err) {
+      console.error('save profile failed:', err);
+      wx.showToast({ title: '保存失败，请重试', icon: 'none' });
+      return;
+    }
 
     const app = getApp();
     app.globalData.profile = profile;
     app.globalData.targets = targets;
 
+    const goalIdx = Math.max(0, GOAL_KEYS.indexOf(profile.goal));
     this.setData({
+      age: String(profile.age),
+      heightCm: String(profile.heightCm),
+      weightKg: String(profile.weightKg),
       targets,
-      goalLabel: GOAL_OPTIONS[this.data.goalIndex],
-      goalAdjust: GOAL_ADJUST_LABELS[profile.goal] != null ? GOAL_ADJUST_LABELS[profile.goal] : 0
+      goalLabel: GOAL_OPTIONS[goalIdx],
+      goalAdjustText: formatGoalAdjust(profile.goal)
     });
     wx.showToast({ title: '已保存', icon: 'success' });
   }

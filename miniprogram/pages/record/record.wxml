@@ -1,10 +1,14 @@
+<view class="date-banner" wx:if="{{isBackfill}}">
+  <text class="date-banner-text">正在补记 {{recordDateKey}} 的饮食记录</text>
+  <text class="date-banner-exit" bindtap="onExitBackfill">切回今天</text>
+</view>
+
 <view class="search-bar">
   <input
     type="text"
     placeholder="搜索食物，如：米饭、鸡蛋"
     value="{{keyword}}"
     bindinput="onInput"
-    focus
   />
 </view>
 
@@ -20,7 +24,9 @@
     <view class="food-meta">{{item.calories}} kcal / 100g · {{item.category}}</view>
   </view>
 
-  <view class="empty" wx:if="{{results.length === 0}}">没有找到「{{keyword}}」相关食物</view>
+  <view class="empty" wx:if="{{!hasKeyword}}">输入食物名称开始搜索，如：米饭、鸡蛋、豆腐</view>
+  <view class="empty" wx:elif="{{searching && results.length === 0}}">搜索中...</view>
+  <view class="empty" wx:elif="{{!searching && results.length === 0}}">没有找到「{{keyword}}」相关食物</view>
 </view>
 
 <view class="modal-mask" wx:if="{{selectedFood}}" bindtap="onCloseModal">
@@ -38,7 +44,7 @@
 
     <view class="form-row">
       <text class="label">分量（克）</text>
-      <input type="digit" value="{{grams}}" bindinput="onGramsInput" />
+      <input type="digit" value="{{gramsInput}}" bindinput="onGramsInput" />
     </view>
 
     <view class="portion-tags">
@@ -51,11 +57,19 @@
       >{{item}}g</view>
     </view>
 
+    <view class="modal-preview" wx:if="{{previewNutrients}}">
+      <block wx:if="{{grams > 0 && grams <= 5000}}">
+        <view class="modal-preview-title">当前 {{grams}}g 营养预览</view>
+        <view class="modal-preview-values">{{previewNutrients.calories}} kcal · 蛋白质 {{previewNutrients.protein}}g · 碳水 {{previewNutrients.carbs}}g · 脂肪 {{previewNutrients.fat}}g · 膳食纤维 {{previewNutrients.fiber}}g</view>
+      </block>
+      <view class="modal-preview-invalid" wx:else>请输入有效克数（1~5000g）</view>
+    </view>
+
     <button class="btn-primary" bindtap="onSave">确认记录</button>
   </view>
 </view>
 
 <view class="toast" wx:if="{{showToast}}">
   <text class="toast-text">{{toastMessage}}</text>
-  <text class="toast-action" bindtap="navToToday">查看今日 ›</text>
+  <text class="toast-action" bindtap="navToToday">{{isBackfill ? '返回查看 ›' : '查看今日 ›'}}</text>
 </view>

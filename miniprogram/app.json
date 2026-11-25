@@ -15,9 +15,24 @@
     "selectedColor": "#2f855a",
     "backgroundColor": "#ffffff",
     "list": [
-      { "pagePath": "pages/today/today", "text": "今日" },
-      { "pagePath": "pages/record/record", "text": "记录" },
-      { "pagePath": "pages/profile/profile", "text": "我的" }
+      {
+        "pagePath": "pages/today/today",
+        "text": "今日",
+        "iconPath": "images/tab-today.png",
+        "selectedIconPath": "images/tab-today-active.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记录",
+        "iconPath": "images/tab-record.png",
+        "selectedIconPath": "images/tab-record-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab-profile.png",
+        "selectedIconPath": "images/tab-profile-active.png"
+      }
     ]
   },
   "sitemapLocation": "sitemap.json"

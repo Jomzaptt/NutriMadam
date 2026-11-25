@@ -41,7 +41,7 @@ const CATEGORY_TAGS = [
   { sub: '茄果瓜菜类', breakfast: false, dinner: true, snack: true, satiety: true, digest: true, limit: false, whole: true, cook: true },
   { sub: '葱蒜类', breakfast: false, dinner: true, snack: false, satiety: false, digest: true, limit: false, whole: true, cook: true },
   { sub: '薯芋类', breakfast: true, dinner: true, snack: false, satiety: true, digest: true, limit: false, whole: true, cook: true },
-  { sub: '野生蔬菜类', breakfast: false, dinner: true, snack: false, satiety: true, digest: true, limit: false, whole: true, cook: true },
+  { sub: '野生蔬菜类', breakfast: false, dinner: false, snack: false, satiety: false, digest: false, limit: true, whole: true, cook: false },
   { sub: '鲜豆类', breakfast: false, dinner: true, snack: false, satiety: true, digest: true, limit: false, whole: true, cook: true },
   { sub: '淀粉类', breakfast: false, dinner: false, snack: false, satiety: true, digest: true, limit: false, whole: false, cook: true },
   { sub: '薯类', breakfast: true, dinner: true, snack: false, satiety: true, digest: true, limit: false, whole: true, cook: true },

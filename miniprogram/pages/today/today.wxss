@@ -69,6 +69,10 @@
   display: inline-block;
 }
 
+.calorie-num.over {
+  color: #e53e3e;
+}
+
 .calorie-target {
   display: inline-block;
   color: #a0aec0;
@@ -81,6 +85,11 @@
   margin-top: 8rpx;
 }
 
+.calorie-label.over {
+  color: #e53e3e;
+  font-weight: 500;
+}
+
 .macro-row {
   display: flex;
   align-items: center;
@@ -89,6 +98,7 @@
 
 .macro-name {
   width: 160rpx;
+  flex-shrink: 0;
   color: #4a5568;
 }
 
@@ -107,11 +117,23 @@
   border-radius: 8rpx;
 }
 
+.macro-fill.over {
+  background: #e53e3e;
+}
+
 .macro-value {
   font-size: 24rpx;
   color: #718096;
-  width: 140rpx;
+  width: auto;
+  min-width: 160rpx;
+  flex-shrink: 0;
+  white-space: nowrap;
   text-align: right;
+}
+
+.macro-value.over {
+  color: #e53e3e;
+  font-weight: 500;
 }
 
 .section-title {

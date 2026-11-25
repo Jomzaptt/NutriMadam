@@ -1,7 +1,27 @@
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function isPositiveFinite(value) {
+  return Number.isFinite(value) && value > 0;
+}
+
+function hasOwn(obj, key) {
+  return typeof key === 'string' && Object.prototype.hasOwnProperty.call(obj, key);
+}
+
 // Mifflin-St Jeor 公式计算基础代谢率 (BMR)
-function calcBMR({ gender, weightKg, heightCm, age }) {
+function calcBMR(profile) {
+  if (!isPlainObject(profile)) return null;
+  const { weightKg, heightCm, age } = profile;
+  if (!isPositiveFinite(weightKg) || !isPositiveFinite(heightCm) || !isPositiveFinite(age)) {
+    return null;
+  }
+  const gender = profile.gender === 'male' ? 'male' : 'female';
   const base = 10 * weightKg + 6.25 * heightCm - 5 * age;
-  return Math.round(gender === 'male' ? base + 5 : base - 161);
+  const bmr = Math.round(gender === 'male' ? base + 5 : base - 161);
+  if (!Number.isFinite(bmr) || bmr <= 0) return null;
+  return bmr;
 }
 
 const ACTIVITY_FACTORS = {
@@ -34,13 +54,17 @@ const MIN_CALORIES = 1200;
 // 结构：按性别 → 年龄段（含上界）→ { key: 目标值 }。未命中的年龄段回退到性别默认值。
 const MICRO_SEGMENTS = {
   male: {
+    vitaminA: [
+      { maxAge: 10, value: 500 }, { maxAge: 13, value: 670 }, { maxAge: 17, value: 820 },
+      { maxAge: Infinity, value: 800 }
+    ],
     calcium: [
       { maxAge: 10, value: 1000 }, { maxAge: 13, value: 1200 }, { maxAge: 17, value: 1000 },
-      { maxAge: 49, value: 800 }, { maxAge: 64, value: 800 }, { maxAge: Infinity, value: 1000 }
+      { maxAge: 49, value: 800 }, { maxAge: Infinity, value: 1000 }
     ],
     iron: [
       { maxAge: 10, value: 12 }, { maxAge: 13, value: 15 }, { maxAge: 17, value: 16 },
-      { maxAge: 49, value: 12 }, { maxAge: Infinity, value: 12 }
+      { maxAge: Infinity, value: 12 }
     ],
     zinc: [
       { maxAge: 10, value: 7 }, { maxAge: 13, value: 10 }, { maxAge: 17, value: 11.5 },
@@ -52,9 +76,13 @@ const MICRO_SEGMENTS = {
     ]
   },
   female: {
+    vitaminA: [
+      { maxAge: 10, value: 500 }, { maxAge: 13, value: 630 }, { maxAge: 17, value: 730 },
+      { maxAge: Infinity, value: 700 }
+    ],
     calcium: [
       { maxAge: 10, value: 1000 }, { maxAge: 13, value: 1200 }, { maxAge: 17, value: 1000 },
-      { maxAge: 49, value: 800 }, { maxAge: 64, value: 800 }, { maxAge: Infinity, value: 1000 }
+      { maxAge: 49, value: 800 }, { maxAge: Infinity, value: 1000 }
     ],
     iron: [
       { maxAge: 10, value: 12 }, { maxAge: 13, value: 15 }, { maxAge: 17, value: 18 },
@@ -79,29 +107,55 @@ function pickMicroTarget(segments, age, fallback) {
 
 function calcTargets(profile) {
   const bmr = calcBMR(profile);
-  const tdee = Math.round(bmr * (ACTIVITY_FACTORS[profile.activity] || 1.2));
-  const rawCalories = tdee + (GOAL_ADJUSTMENTS[profile.goal] || 0);
-  const calories = Math.max(MIN_CALORIES, rawCalories);
-  const clamped = rawCalories < MIN_CALORIES;
+  if (bmr === null) return null;
 
-  const ratio = MACRO_RATIOS[profile.goal] || MACRO_RATIOS.maintain;
-  const seg = MICRO_SEGMENTS[profile.gender] || {};
+  const gender = profile.gender === 'male' ? 'male' : 'female';
+  const goal = hasOwn(MACRO_RATIOS, profile.goal) ? profile.goal : 'maintain';
+  const activityFactor = hasOwn(ACTIVITY_FACTORS, profile.activity)
+    ? ACTIVITY_FACTORS[profile.activity]
+    : ACTIVITY_FACTORS.sedentary;
+  const goalAdjust = hasOwn(GOAL_ADJUSTMENTS, goal) ? GOAL_ADJUSTMENTS[goal] : 0;
+
+  const tdee = Math.round(bmr * activityFactor);
+  if (!Number.isFinite(tdee) || tdee <= 0) return null;
+  const rawCalories = tdee + goalAdjust;
+  const floor = goal === 'gain' ? MIN_CALORIES : Math.min(MIN_CALORIES, tdee);
+  const calories = Math.max(floor, rawCalories);
+  const clamped = rawCalories < floor;
+
+  const ratio = MACRO_RATIOS[goal];
+  const seg = hasOwn(MICRO_SEGMENTS, gender) ? MICRO_SEGMENTS[gender] : {};
+
+  const protein = Math.round(calories * ratio.protein / KCAL_PER_GRAM.protein);
+  const carbs = Math.round(calories * ratio.carbs / KCAL_PER_GRAM.carbs);
+  const fat = Math.round(calories * ratio.fat / KCAL_PER_GRAM.fat);
+
+  if (
+    !Number.isFinite(calories) ||
+    !Number.isFinite(protein) ||
+    !Number.isFinite(carbs) ||
+    !Number.isFinite(fat)
+  ) {
+    return null;
+  }
 
   return {
+    goal,
     bmr,
     tdee,
     calories,
     clamped,
-    protein: Math.round(calories * ratio.protein / KCAL_PER_GRAM.protein),
-    carbs: Math.round(calories * ratio.carbs / KCAL_PER_GRAM.carbs),
-    fat: Math.round(calories * ratio.fat / KCAL_PER_GRAM.fat),
+    floorCalories: floor,
+    protein,
+    carbs,
+    fat,
     fiber: 25,
-    vitaminA: 800,
+    vitaminA: pickMicroTarget(seg.vitaminA, profile.age, gender === 'female' ? 700 : 800),
     vitaminC: 100,
     calcium: pickMicroTarget(seg.calcium, profile.age, 800),
-    magnesium: pickMicroTarget(seg.magnesium, profile.age, profile.gender === 'female' ? 310 : 400),
-    iron: pickMicroTarget(seg.iron, profile.age, profile.gender === 'female' ? 18 : 12),
-    zinc: pickMicroTarget(seg.zinc, profile.age, profile.gender === 'female' ? 8 : 12)
+    magnesium: pickMicroTarget(seg.magnesium, profile.age, gender === 'female' ? 320 : 330),
+    iron: pickMicroTarget(seg.iron, profile.age, gender === 'female' ? 20 : 12),
+    zinc: pickMicroTarget(seg.zinc, profile.age, gender === 'female' ? 7.5 : 12.5)
   };
 }
 

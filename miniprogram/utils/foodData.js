@@ -4116,7 +4116,7 @@ const FOODS = [
     "id": "219041",
     "name": "蜂王浆",
     "category": "其他类-其他",
-    "calories": 0,
+    "calories": 58,
     "protein": 14.6,
     "carbs": 0,
     "fat": 0,
@@ -6612,7 +6612,7 @@ const FOODS = [
     "id": "192001",
     "name": "菜籽油［青油］",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6628,7 +6628,7 @@ const FOODS = [
     "id": "192002",
     "name": "茶油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6644,7 +6644,7 @@ const FOODS = [
     "id": "192003",
     "name": "大麻油［粟米油］",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6660,7 +6660,7 @@ const FOODS = [
     "id": "192004",
     "name": "豆油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6676,7 +6676,7 @@ const FOODS = [
     "id": "192005",
     "name": "红花油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6692,7 +6692,7 @@ const FOODS = [
     "id": "192006",
     "name": "胡麻油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 900,
     "protein": 0,
     "carbs": 0.0,
     "fat": 100.0,
@@ -6708,7 +6708,7 @@ const FOODS = [
     "id": "192007",
     "name": "花生油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6724,7 +6724,7 @@ const FOODS = [
     "id": "192008",
     "name": "混合油（菜+棕）",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 900,
     "protein": 0,
     "carbs": 0.1,
     "fat": 99.9,
@@ -6740,7 +6740,7 @@ const FOODS = [
     "id": "192009",
     "name": "葵花子油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6756,7 +6756,7 @@ const FOODS = [
     "id": "192010",
     "name": "辣椒油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 900,
     "protein": 0,
     "carbs": 0.0,
     "fat": 100.0,
@@ -6769,26 +6769,10 @@ const FOODS = [
     "zinc": 0
   },
   {
-    "id": "192011",
-    "name": "麻子籽",
-    "category": "植物油-植物油",
-    "calories": 0,
-    "protein": 0,
-    "carbs": 0,
-    "fat": 0,
-    "fiber": 0,
-    "vitaminA": 0,
-    "vitaminC": 0,
-    "calcium": 0,
-    "magnesium": 0,
-    "iron": 0,
-    "zinc": 0
-  },
-  {
     "id": "192012",
     "name": "麦胚油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6804,7 +6788,7 @@ const FOODS = [
     "id": "192013",
     "name": "棉籽油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.1,
     "fat": 99.8,
@@ -6820,7 +6804,7 @@ const FOODS = [
     "id": "192014",
     "name": "色拉油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 898,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.8,
@@ -6836,7 +6820,7 @@ const FOODS = [
     "id": "192015",
     "name": "椰子油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -6852,7 +6836,7 @@ const FOODS = [
     "id": "192016",
     "name": "玉米油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 895,
     "protein": 0,
     "carbs": 0.5,
     "fat": 99.2,
@@ -6868,7 +6852,7 @@ const FOODS = [
     "id": "192017",
     "name": "芝麻油［香油］",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 898,
     "protein": 0,
     "carbs": 0.2,
     "fat": 99.7,
@@ -6884,7 +6868,7 @@ const FOODS = [
     "id": "192018",
     "name": "棕榈油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 900,
     "protein": 0,
     "carbs": 0.0,
     "fat": 100.0,
@@ -6900,7 +6884,7 @@ const FOODS = [
     "id": "192019",
     "name": "橄榄油",
     "category": "植物油-植物油",
-    "calories": 0,
+    "calories": 899,
     "protein": 0,
     "carbs": 0.0,
     "fat": 99.9,
@@ -15044,7 +15028,7 @@ const FOODS = [
     "id": "052005",
     "name": "海冻菜（干）［石花菜，冻菜］",
     "category": "菌藻类-藻类",
-    "calories": 0,
+    "calories": 314,
     "protein": 5.4,
     "carbs": 72.9,
     "fat": 0.1,
@@ -18388,7 +18372,7 @@ const FOODS = [
     "id": "048001",
     "name": "艾蒿",
     "category": "蔬菜类及其制品-野生蔬菜类",
-    "calories": 0,
+    "calories": 55,
     "protein": 0,
     "carbs": 3.6,
     "fat": 0,
@@ -26834,10 +26818,91 @@ const FOODS = [
   }
 ];
 
-function searchFoods(keyword) {
+const SEARCH_SYNONYMS = Object.assign(Object.create(null), {
+  '鸡胸肉': ['鸡胸脯肉', '鸡胸'],
+  '鸡肉': ['鸡胸脯肉', '鸡腿', '鸡（代表值）'],
+  '牛油果': ['鳄梨'],
+  '水煮蛋': ['鸡蛋（煮）', '鸡蛋'],
+  '白米饭': ['米饭（蒸，代表值）', '米饭'],
+  '巴旦木': ['杏仁（大杏仁）', '杏仁'],
+  '扁桃仁': ['杏仁（大杏仁）', '杏仁'],
+  '燕麦片': ['燕麦'],
+  '燕麦粥': ['燕麦'],
+  '圣女果': ['樱桃番茄［小西红柿］', '小西红柿', '番茄'],
+  '小番茄': ['樱桃番茄［小西红柿］', '小西红柿', '番茄'],
+  '西红柿': ['番茄', '西红柿'],
+  '奇异果': ['中华猕猴桃', '猕猴桃'],
+  '橙子': ['橙'],
+  '红枣': ['枣（干）', '枣（鲜）', '枣'],
+  '嫩豆腐': ['豆腐（内酯）', '豆腐（南豆腐）', '豆腐'],
+  '老豆腐': ['豆腐（北豆腐）', '豆腐脑［老豆腐］', '豆腐'],
+  '低脂奶': ['纯牛奶（代表值，低脂）', '低脂 牛奶', '脱脂 牛奶'],
+  '脱脂奶': ['纯牛奶（代表值，脱脂）', '脱脂 牛奶'],
+  '牛奶': ['纯牛奶（代表值，全脂）', '纯牛奶', '牛奶'],
+  '瘦牛肉': ['牛肉（代表值，瘦，fat3g）', '牛肉 瘦', '牛肉'],
+  '番薯': ['甘薯'],
+  '地瓜': ['甘薯']
+});
+
+function normalizeSearchText(str) {
+  return str
+    .trim()
+    .toLowerCase()
+    .replace(/（/g, '(')
+    .replace(/）/g, ')')
+    .replace(/［/g, '[')
+    .replace(/］/g, ']')
+    .replace(/[，、]/g, ',');
+}
+
+function scoreNameMatch(normName, normQuery) {
+  if (!normQuery) return 99;
+  if (normName === normQuery) return 0;
+  if (normName.startsWith(normQuery)) return 1;
+  if (normName.includes(normQuery)) return 2;
+  const tokens = normQuery.split(/\s+/).filter(Boolean);
+  if (tokens.length > 1 && tokens.every(t => normName.includes(t))) {
+    return 3;
+  }
+  return 99;
+}
+
+function searchFoods(keyword, limit = 50) {
   if (!keyword || typeof keyword !== 'string') return [];
-  const q = keyword.trim().toLowerCase();
-  return FOODS.filter(food => food.name.toLowerCase().includes(q));
+  const q = normalizeSearchText(keyword);
+  if (!q) return [];
+
+  const synonymTargets = Object.prototype.hasOwnProperty.call(SEARCH_SYNONYMS, q) ? SEARCH_SYNONYMS[q] : [];
+  // 0: exact, 1: prefix, 2: substring, 3: multi-token AND,
+  // 4: synonym exact, 5: synonym prefix, 6: synonym substring/multi-token
+  const buckets = [[], [], [], [], [], [], []];
+  const seenIds = new Set();
+
+  for (let i = 0; i < FOODS.length; i++) {
+    const food = FOODS[i];
+    const normName = normalizeSearchText(food.name);
+    let tier = scoreNameMatch(normName, q);
+
+    if (tier === 99 && synonymTargets.length > 0) {
+      let bestSynTier = 99;
+      for (let j = 0; j < synonymTargets.length; j++) {
+        const synTier = scoreNameMatch(normName, normalizeSearchText(synonymTargets[j]));
+        if (synTier < bestSynTier) bestSynTier = synTier;
+        if (bestSynTier === 0) break;
+      }
+      if (bestSynTier < 99) {
+        tier = bestSynTier <= 1 ? 4 + bestSynTier : 6;
+      }
+    }
+
+    if (tier < buckets.length && !seenIds.has(food.id)) {
+      seenIds.add(food.id);
+      buckets[tier].push(food);
+    }
+  }
+
+  const matched = [].concat(...buckets);
+  return Number.isFinite(limit) ? (limit <= 0 ? [] : matched.slice(0, limit)) : matched;
 }
 
 function getFoodById(id) {

@@ -47,9 +47,13 @@
   <view class="target-row"><text>碳水化合物</text><text class="target-value">{{targets.carbs}} g</text></view>
   <view class="target-row"><text>脂肪</text><text class="target-value">{{targets.fat}} g</text></view>
   <view class="target-row"><text>膳食纤维</text><text class="target-value">{{targets.fiber}} g</text></view>
+  <view class="target-row"><text>维生素A</text><text class="target-value">{{targets.vitaminA}} μg</text></view>
   <view class="target-row"><text>维生素C</text><text class="target-value">{{targets.vitaminC}} mg</text></view>
   <view class="target-row"><text>钙</text><text class="target-value">{{targets.calcium}} mg</text></view>
   <view class="target-row"><text>镁</text><text class="target-value">{{targets.magnesium}} mg</text></view>
-  <view class="target-hint">基础代谢 {{targets.bmr}} kcal · 每日消耗 {{targets.tdee}} kcal · 按目标「{{goalLabel}}」调整 {{goalAdjust}} kcal</view>
-  <view class="target-hint clamp-hint" wx:if="{{targets.clamped}}">已按最低安全热量 {{minCalories}} kcal 兜底（你的测算值低于该下限）</view>
+  <view class="target-row"><text>铁</text><text class="target-value">{{targets.iron}} mg</text></view>
+  <view class="target-row"><text>锌</text><text class="target-value">{{targets.zinc}} mg</text></view>
+  <view class="target-hint">基础代谢 {{targets.bmr}} kcal · 每日消耗 {{targets.tdee}} kcal · 按目标「{{goalLabel}}」调整 {{goalAdjustText}} kcal</view>
+  <view class="target-hint clamp-hint" wx:if="{{targets.clamped && targets.tdee < minCalories && targets.goal !== 'gain'}}">已按当前每日消耗 {{targets.floorCalories || targets.tdee}} kcal 兜底（减脂目标不超过每日消耗）</view>
+  <view class="target-hint clamp-hint" wx:elif="{{targets.clamped}}">已按最低安全热量 {{targets.floorCalories || minCalories}} kcal 兜底（你的测算值低于该下限）</view>
 </view>

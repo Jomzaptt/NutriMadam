@@ -16,41 +16,29 @@
 
 <block wx:if="{{targets}}">
   <view class="card calorie-card">
-    <view class="calorie-num">{{totals.calories}}</view>
+    <view class="calorie-num {{isCalorieOver ? 'over' : ''}}">{{totals.calories}}</view>
     <view class="calorie-target">/ {{targets.calories}} kcal</view>
-    <view class="calorie-label">今日已摄入</view>
+    <view class="calorie-label over" wx:if="{{isCalorieOver}}">{{isToday ? '今日' : '当日'}}已超出 {{calorieOverAmount}} kcal</view>
+    <view class="calorie-label" wx:else>{{isToday ? '今日已摄入' : '当日已摄入'}}</view>
   </view>
 
   <view class="card">
-    <view class="macro-row" wx:for="{{[
-      {name: '蛋白质', key: 'protein'},
-      {name: '碳水化合物', key: 'carbs'},
-      {name: '脂肪', key: 'fat'},
-      {name: '膳食纤维', key: 'fiber'}
-    ]}}" wx:key="key">
+    <view class="macro-row" wx:for="{{macroList}}" wx:key="key">
       <text class="macro-name">{{item.name}}</text>
       <view class="macro-bar">
-        <view class="macro-fill" style="width: {{Math.min(totals[item.key] / targets[item.key] * 100, 100)}}%"></view>
+        <view class="macro-fill {{item.isOver ? 'over' : ''}}" style="width: {{item.pct}}%"></view>
       </view>
-      <text class="macro-value">{{totals[item.key]}} / {{targets[item.key]}}g</text>
+      <text class="macro-value {{item.isOver ? 'over' : ''}}">{{item.value}} / {{item.target}}g</text>
     </view>
   </view>
 
   <view class="card">
     <view class="section-title">更多营养素</view>
     <view class="micro-grid">
-      <view class="micro-item" wx:for="{{[
-        {name: '维生素A', key: 'vitaminA', unit: 'μg'},
-        {name: '维生素C', key: 'vitaminC', unit: 'mg'},
-        {name: '钙', key: 'calcium', unit: 'mg'},
-        {name: '镁', key: 'magnesium', unit: 'mg'},
-        {name: '铁', key: 'iron', unit: 'mg'},
-        {name: '锌', key: 'zinc', unit: 'mg'}
-      ]}}" wx:key="key"
-      >
+      <view class="micro-item" wx:for="{{microList}}" wx:key="key">
         <view class="micro-name">{{item.name}}</view>
-        <view class="micro-value">{{totals[item.key]}} <text class="micro-unit">{{item.unit}}</text></view>
-        <view class="micro-target">目标 {{targets[item.key]}}{{item.unit}}</view>
+        <view class="micro-value">{{item.value}} <text class="micro-unit">{{item.unit}}</text></view>
+        <view class="micro-target">目标 {{item.target}}{{item.unit}}</view>
       </view>
     </view>
     <view class="micro-note">微量营养素为全天累计摄入，随当日记账逐步累加，无需一次性补足。</view>
@@ -62,8 +50,10 @@
     </view>
     <view class="advice-summary" wx:for="{{advice.summary}}" wx:key="*this">{{item}}</view>
 
-    <view class="advice-subtitle">推荐补充</view>
-    <view class="advice-tag" wx:for="{{advice.recommendations}}" wx:key="*this" data-name="{{item}}" bindtap="onTapRecommend">{{item}}</view>
+    <block wx:if="{{advice.recommendations && advice.recommendations.length > 0}}">
+      <view class="advice-subtitle">{{advice.calorieState === 'over' ? '低卡轻食参考' : '推荐补充'}}</view>
+      <view class="advice-tag" wx:for="{{advice.recommendations}}" wx:key="id" data-id="{{item.id}}" data-name="{{item.name}}" bindtap="onTapRecommend">{{item.name}}</view>
+    </block>
 
     <view class="advice-subtitle">健康小习惯</view>
     <view class="advice-habit" wx:for="{{advice.habits}}" wx:key="*this">· {{item}}</view>
@@ -72,12 +62,12 @@
 
 <view class="card">
   <view class="section-title">
-    <text>今日记录</text>
-    <text class="add-link" bindtap="navToRecord">+ 记一笔</text>
+    <text>{{isToday ? '今日记录' : '当日记录'}}</text>
+    <text class="add-link" bindtap="navToRecord">{{isToday ? '+ 记一笔' : '+ 补记一笔'}}</text>
   </view>
 
   <block wx:if="{{records.length === 0}}">
-    <view class="empty-day">今天还没有记录食物，去记一笔吧</view>
+    <view class="empty-day">{{isToday ? '今天还没有记录食物，去记一笔吧' : '这一天还没有记录食物，去补记一笔吧'}}</view>
   </block>
 
   <block wx:else>
